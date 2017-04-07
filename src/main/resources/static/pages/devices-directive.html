@@ -1,0 +1,43 @@
+<h2>{{gateway.name}}({{gateway.serialNumber}}) devices</h2>
+   <table class="table">
+	<thead>
+		<tr>
+			<th>UID</th>
+			<th>Vendor</th>
+			<th>Date Created</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="device in gateway.devices | orderBy:'uid'">
+			<td>{{device.uid}}</td>
+			<td ng-click="populateData(device)">
+				<a href="#" editable-text="newDevice.vendor" onaftersave="updateDevice(device)">
+					{{device.vendor}}
+				</a>
+			</td>
+			<td>
+		    	<a href="#" editable-bsdate="newDevice.dateCreated" e-datepicker-popup="dd-MMMM-yyyy" e-is-open="opened.$data" ng-click="populateData(device)" e-ng-click="open($event,'$data', device)" onaftersave="updateDevice(device)">
+					{{device.dateCreated | date:'MMMM/d/yyyy'}}
+				</a>
+			</td>
+			<td ng-click="populateData(device)">
+				<a href="#" editable-select="newDevice.status" e-ng-options="option.value as option.name for option in statusOptions" onaftersave="updateDevice(device)">
+                	{{device.status}}  
+                </a>
+            </td>
+
+
+			<td><input type="button" value="Delete Device" ng-click="deleteDevice(device)"/></td>
+		</tr>
+		<tr>
+			<td><input type="number" name="uid" ng-model="uid" placeholder="UID" /></td>
+			<td><input type="text" name="vendor" ng-model="vendor" placeholder="Vendor" /></td>
+			<td><input type="date" name="dateCreated" ng-model="dateCreated" /></td>
+			<td><select name="status" ng-model="status" ng-init="status='Online'"
+			                          ng-options='option.value as option.name for option in statusOptions'>
+			</select></td>
+			<td><input type="button" value="Add Device" ng-click="addDevice(uid, vendor, dateCreated, status, gateway.serialNumber)" /></td>
+		</tr>
+	</tbody>
+</table>

@@ -1,0 +1,2 @@
+myApp.controller('devicesController', [function() {
+}]);
